@@ -113,9 +113,61 @@ public class GestionarCategorias {
         return null;
     }
 
-    public void actualizarCategoria(Categoria categoria) {
-        // Lógica para actualizar una categoria en la base de datos
+    /**
+     * Metodo para editar una categoria
+     * @param id
+     * @param categoria
+     * @return 
+     */
+    public boolean editarCategoria(int id, String categoria) {
+        boolean categoriaEditada = false;
+        Connection conexion = null;
+        PreparedStatement consulta = null;
+
+        try {
+            // Obtener la conexión a la base de datos
+            conexion = conectar.obtenerConexion();
+
+            // Crear la consulta SQL para actualizar la categoría
+            String sql = "UPDATE categorias SET categoria = ? WHERE idCategoria = ?";
+
+            // Preparar la consulta
+            consulta = conexion.prepareStatement(sql);
+
+            // Establecer los parámetros en la consulta
+            consulta.setString(1, categoria);
+            consulta.setInt(2, id);
+
+            // Ejecutar la consulta de actualización
+            int filasActualizadas = consulta.executeUpdate();
+
+            // Si se actualizó al menos una fila, la operación fue exitosa
+            if (filasActualizadas > 0) {
+                categoriaEditada = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Muestra el error en consola
+        } finally {
+            // Cerrar los recursos de la base de datos
+            if (consulta != null) {
+                try {
+                    consulta.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conexion != null) {
+                try {
+                    conexion.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return categoriaEditada;
     }
+
 
     /**
      * Metodo para eliminar una categoria

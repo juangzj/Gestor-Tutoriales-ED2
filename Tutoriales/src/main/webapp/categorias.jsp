@@ -46,7 +46,18 @@
                             <td><%= categoria.getIdCategoria()%></td>
                             <td><%= categoria.getCategorias()%></td>
                             <td>                              
-                                <a href="#" class="btn btn-warning"><i class="fa fa-marker"></i></a>
+                            
+                                      <!-- Botón para abrir el modal de editar -->
+                                      <button type="button" class="btn btn-warning editarCategoria-btn" 
+
+                                              data-bs-toggle="modal" 
+                                              data-bs-target="#exampleModalEditar" 
+                                              data-id="<%= categoria.getIdCategoria()%>"
+                                              data-nombre="<%= categoria.getCategorias()%>"
+                                              > <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                              <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                                          </svg>
+                                      </button>
                                
                                   <!-- Botón para abrir el modal de eliminacion  -->
                         <button type="button" class="btn btn-danger eliminarCategoria-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="<%= categoria.getIdCategoria()%>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -74,6 +85,38 @@
         </div>
     </div>
 </div>
+      
+                    
+
+                    <!-- Modal Para Editar una categoria -->
+                    <div class="modal fade" id="exampleModalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="SvEditarCategoria" method="POST">
+                                    <div class="modal-body">
+                                        <p>¿Estás seguro de que deseas EDITAR la categoria con ID: <span id="categoriaIdEditar"></span>?</p>
+
+                                        <div class="form-group">
+                                            <input type="text" name="categoriaEditar" id="categoriaEditar" class="form-control" placeholder="ingrese la categoria" autofocus >
+                                        </div><br>
+
+                                    </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" name="confrimacionEdicion" value="editar" class="btn btn-primary">Editar</button>
+                                                </div>
+                                </form>
+
+
+                                </div>
+                        </div>
+                    </div>   
+
                     <!-- Modal Para Eliminar una valoracion-->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -87,7 +130,7 @@
                                 </div>
                                 <form action="SvEliminarCategoria" method="POST">
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancelar</button>
                                         <button type="submit" class="btn btn-primary" name="confirmacionEliminacion" value="confirmacionEliminar" >Eliminar</button>
                                     </div>
                                 </form>
@@ -97,7 +140,52 @@
                     
                     
                     <!-- CDN JQUERY  -->
-                    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>                    
+                    <script src="https://code.jquery.com/jquery-3.6.0.js"></script> 
+                                      <!-- Script para obtener el id de la categoria que se va a editar y despues enviarla por ajaxx al servlet -->
+                    <script>
+                        // Captur clic y mandar el id de la  categoria que se va a editar 
+                        $('.editarCategoria-btn').on('click', function () {
+                            // Obtener el ID de la categoria
+                            const idCategoriaEditar = $(this).data('id');
+                            // Mostrar el ID en el modal de la edicion
+                            $('#categoriaIdEditar').text(idCategoriaEditar);
+
+                            // Envío de ID al servlet a través de AJAX (método POST)
+                            $.ajax({
+                                url: 'SvEditarCategoria', // Url donde se enviara los datos(en este caso el id)
+                                method: 'POST', // Método de solicitud por donde llegara la información al servlet
+                                data: {idCategoriaEditar: idCategoriaEditar}, // Datos a enviar (en este caso, el ID)
+                                success: function (response) {
+                                    // Manejar la respuesta del servidor si es necesario
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error al enviar la solicitud:', error);
+                                }
+                            });
+                        });
+                    </script>
+     
+                    
+                    <!-- script para capturar las variables y que se muestren en el modal -->
+                    <script>
+    
+    $(document).ready(function(){
+    // Manejar el evento cuando se hace clic en el enlace de la modal
+    $('#exampleModalEditar').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Botón que abrió la modal
+        var nombre = button.data('nombre');
+    
+        
+        // Actualizar el contenido de la modal
+        var modal = $(this);
+        modal.find('#categoriaEditar').val(nombre);
+    });
+});
+
+                    </script>
+                    
+                                   
+           
                     <!-- Script para obtener el id de la valoracion que se va a elimnar y despues enviarla por ajaxx al servlet -->
                     <script>
                         // Captur clic y mandar el id de la categoria  que se va a eliminar 
@@ -121,5 +209,6 @@
                             });
                         });
                     </script>
+           
 
 <%@include file="lib/footer.jsp" %>

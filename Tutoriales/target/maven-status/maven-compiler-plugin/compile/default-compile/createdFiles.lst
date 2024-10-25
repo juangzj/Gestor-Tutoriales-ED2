@@ -1,5 +1,6 @@
 sv_listarTutoriales.class
 umariana\tutoriales\GestionarTutoriales.class
+servlets\SvEditarCategoria.class
 servlets\SvAgregarTutorial.class
 sv_listarCategorias.class
 servlets\SvAgregarCategoria.class
