@@ -112,7 +112,45 @@ public class GestionarTutoriales {
         // Lógica para actualizar un tutorial en la base de datos
     }
 
-    public void eliminarTutorial(int idTutorial) {
-        // Lógica para eliminar un tutorial de la base de datos
+    public boolean eliminarTutorial(int idTutorial) {
+        boolean tutorialEliminado = false;
+        Connection conexion = null;
+        PreparedStatement consulta = null;
+
+        try {
+            // Conectar a la base de datos
+            conexion = conectar.obtenerConexion();
+
+            // Crear la consulta SQL para eliminar el tutorial
+            String sql = "DELETE FROM tutoriales WHERE idTutorial = ?";
+
+            // Preparar la consulta
+            consulta = conexion.prepareStatement(sql);
+            consulta.setInt(1, idTutorial);
+
+            // Ejecutar la consulta
+            int filasEliminadas = consulta.executeUpdate();
+
+            // Verificar si se eliminó al menos una fila
+            if (filasEliminadas > 0) {
+                tutorialEliminado = true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar el tutorial: " + e.getMessage());
+        } finally {
+            // Cerrar recursos
+            try {
+                if (consulta != null) {
+                    consulta.close();
+                }
+                if (conexion != null) {
+                    conexion.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+
+        return tutorialEliminado;
     }
 }

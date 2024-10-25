@@ -7,6 +7,7 @@ servlets\SvAgregarCategoria.class
 umariana\tutoriales\Conexion.class
 umariana\tutoriales\JAXRSConfiguration.class
 umariana\tutoriales\resources\JavaEE8Resource.class
+servlets\SvEliminarTutorial.class
 umariana\tutoriales\Tutorial.class
 servlets\SvEliminarCategoria.class
 umariana\tutoriales\Categoria.class
