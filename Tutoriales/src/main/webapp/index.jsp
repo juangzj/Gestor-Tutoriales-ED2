@@ -1,3 +1,5 @@
+<%@page import="umariana.tutoriales.Categoria"%>
+<%@page import="umariana.tutoriales.GestionarCategorias"%>
 <%@ page import="java.util.List" %>
 <%@ page import="umariana.tutoriales.Tutorial" %>
 <%@ page import="umariana.tutoriales.GestionarTutoriales" %>
@@ -17,13 +19,46 @@
                         <input type="text" name="url" class="form-control" placeholder="ingrese la URL" required >
                     </div><br>
                     <div class="form-group">
-                        <input type="text" name="prioridad" class="form-control" placeholder="ingrese la prioridad" required  >
+                        <select name="prioridad" class="form-control" required>
+                            <option value="" disabled selected>Seleccione la prioridad</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
                     </div><br>
                     <div class="form-group">
-                        <input type="text" name="estado" class="form-control" placeholder="ingrese el estado" required  >
+                        <select name="estado" class="form-control" required>
+                            <option value="" disabled selected>Seleccione el estado</option>
+                            <option value="true">Visto</option>
+                            <option value="false">No visto</option>
+                        </select>
                     </div><br>
                     <div class="form-group">
-                        <input type="text" name="categoria" class="form-control" placeholder="ingrese la categoria" required  >
+                        <label for="categoria">Seleccione la categoría</label>
+                        <select name="categoria" class="form-control" required>
+                            <option value="" disabled selected>Seleccione una categoría</option>
+                            <%
+                                // Obtener la lista de categorías y verificar si no está vacía
+                                GestionarCategorias categorias = new GestionarCategorias();
+                                List<Categoria> listaCategorias = categorias.listarCategorias();
+
+                                if (listaCategorias != null && !listaCategorias.isEmpty()) {
+                                    // Generar una opción para cada categoría en la lista
+                                    for (Categoria categoria : listaCategorias) {
+                            %>
+                            <option value="<%= categoria.getIdCategoria()%>"><%= categoria.getCategorias()%></option>
+                            <%
+                                    }
+                                }
+                            %>
+                        </select>
                     </div><br>
                     <input type="submit" class="btn btn-success btn-block" name="guardar" value="Guardar">
                 </form>
