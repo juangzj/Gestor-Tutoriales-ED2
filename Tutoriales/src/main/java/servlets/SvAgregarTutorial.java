@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import umariana.tutoriales.GestionarTutoriales;
 
 /**
  *
@@ -16,7 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "SvAgregarTutorial", urlPatterns = {"/SvAgregarTutorial"})
 public class SvAgregarTutorial extends HttpServlet {
 
-
+    //LLamado a la clase GestionarTutoriales para acceder a sus metodos
+    GestionarTutoriales gestionaTutorial =  new GestionarTutoriales();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -38,14 +40,17 @@ public class SvAgregarTutorial extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        //Obtenemos los valores ingresados por el usuario
         String titulo = request.getParameter("titulo");
         String url = request.getParameter("url");
         String prioridad = request.getParameter("prioridad");
         String estado = request.getParameter("estado");
-        String categoria = request.getParameter("categoria");
+        String idCategoria = request.getParameter("categoria");
         
+        if(titulo != null && url != null && prioridad != null && estado != null && idCategoria != null){
+            gestionaTutorial.agregarTutorial(titulo, url, Integer.parseInt(prioridad), Boolean.parseBoolean(estado), Integer.parseInt(idCategoria));
+        }
         
-        System.out.println("El nuevo tutorial se agregar con: " + titulo + url + prioridad + estado + categoria );
         
         response.sendRedirect("index.jsp");
     }

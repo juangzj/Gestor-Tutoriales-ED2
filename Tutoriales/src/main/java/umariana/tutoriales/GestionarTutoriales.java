@@ -10,9 +10,60 @@ import java.util.List;
 public class GestionarTutoriales {
     
     Conexion conectar = new Conexion();
-        // Métodos para CRUD y otras operaciones relacionadas con los tutoriales
-    public void agregarTutorial(Tutorial tutorial) {
-        // Lógica para agregar un tutorial a la base de datos
+    /**
+     * Metodo para agregar un tutorial
+     * @param titulo
+     * @param url
+     * @param prioridad
+     * @param estado
+     * @param idCategoria
+     * @return 
+     */
+     
+    public boolean agregarTutorial(String titulo, String url, int prioridad, boolean estado, int idCategoria) {
+        boolean tutorialAgregado = false;
+        Connection conexion = null;
+        PreparedStatement consulta = null;
+
+        try {
+            // Conectar a la base de datos
+            conexion = conectar.obtenerConexion();
+
+            // Crear la consulta SQL para insertar el tutorial
+            String sql = "INSERT INTO tutoriales (titulo, url, prioridad, estado, idCategoria) VALUES (?, ?, ?, ?, ?)";
+
+            // Preparar la consulta
+            consulta = conexion.prepareStatement(sql);
+            consulta.setString(1, titulo);
+            consulta.setString(2, url);
+            consulta.setInt(3, prioridad);
+            consulta.setBoolean(4, estado);
+            consulta.setInt(5, idCategoria);
+
+            // Ejecutar la consulta
+            int filasInsertadas = consulta.executeUpdate();
+
+            // Verificar si se insertó al menos una fila
+            if (filasInsertadas > 0) {
+                tutorialAgregado = true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al agregar el tutorial: " + e.getMessage());
+        } finally {
+            // Cerrar recursos
+            try {
+                if (consulta != null) {
+                    consulta.close();
+                }
+                if (conexion != null) {
+                    conexion.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+
+        return tutorialAgregado;
     }
 
     /**

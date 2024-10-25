@@ -6,7 +6,7 @@
 <%@include file="lib/header.jsp" %>
 <%@include file="lib/navbar.jsp" %>
 <p></p>
- <div class="container">
+<div class="container">
     <div class="row">
         <div class="col-md-4">
             <div class="card card-body">
@@ -56,6 +56,13 @@
                             <option value="<%= categoria.getIdCategoria()%>"><%= categoria.getCategorias()%></option>
                             <%
                                     }
+    } else {
+                            %>
+                                
+                                
+                                <option value="">No hay Ninguna categoria agregada aun</option>
+                                
+                            <%
                                 }
                             %>
                         </select>
@@ -81,38 +88,49 @@
                         </tr>
                     </thead>
                     <tbody>
-<%
-    GestionarTutoriales tutoriales = new GestionarTutoriales();
-    // Obtener la lista de tutoriales del atributo de la solicitud
-    List<Tutorial> lista = tutoriales.listarTutoriales();
+                        <%
+                            GestionarTutoriales tutoriales = new GestionarTutoriales();
+                            // Obtener la lista de tutoriales del atributo de la solicitud
+                            List<Tutorial> lista = tutoriales.listarTutoriales();
 
-    // Verificar si la lista de tutoriales no es nula y no está vacía
-    if (lista != null && !lista.isEmpty()) {
-        for(Tutorial tutorial : lista) {
-%>
+                            // Verificar si la lista de tutoriales no es nula y no está vacía
+                            if (lista != null && !lista.isEmpty()) {
+                                for (Tutorial tutorial : lista) {
+                        %>
                         <tr>
-                            <td><%= tutorial.getIdTutorial() %></td>
-                            <td><%= tutorial.getTitulo() %></td>
-                            <td><a href="<%= tutorial.getUrl() %>" target="_blank">Enlace</a></td>
-                            <td><%= tutorial.getPrioridad() %></td>
-                            <td><%= tutorial.isEstado() %></td>
-                            <td><%= tutorial.getIdCategoria() %></td>
+                            <td><%= tutorial.getIdTutorial()%></td>
+                            <td><%= tutorial.getTitulo()%></td>
+                            <td><a href="<%= tutorial.getUrl()%>" target="_blank">Enlace</a></td>
+                            <td><%= tutorial.getPrioridad()%></td>
+                             <% 
+                                if (tutorial.isEstado() == true) {
+                             %>
+                             <td>Visto</td>
+                             <%
+                             } else {
+                             %>
+                             <td>No Visto</td>
+                             <%
+                                 }
+                             %>
+
+                            <td><%= tutorial.getIdCategoria()%></td>
                             <td>
                                 <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-eye"></i></a>                                
                                 <a href="#" class="btn btn-warning"><i class="fa fa-marker"></i></a>
                                 <button class="btn btn-danger" onclick="confirmDelete()"><i class="fa fa-trash-alt"></i></button>
                             </td>
                         </tr>
-<%
-        }
-    } else {
-%>
+                        <%
+                            }
+                        } else {
+                        %>
                         <tr>
                             <td colspan="6">No hay tutoriales para mostrar.</td>
                         </tr>
-<%
-    }
-%>
+                        <%
+                            }
+                        %>
                     </tbody>
                 </table>
 
@@ -120,5 +138,5 @@
         </div>
     </div>
 </div>
- 
- <%@include file="lib/footer.jsp" %>
+
+<%@include file="lib/footer.jsp" %>
