@@ -174,6 +174,10 @@
         </div>
     </div>
 </div>
+                    
+                    
+                    
+                    
                     <!-- Modal para ver la información-->
 <div class="modal fade" id="exampleModalVer" tabindex="-1" aria-labelledby="exampleModalVerLabel" aria-hidden="true">
   <div class="modal-dialog">

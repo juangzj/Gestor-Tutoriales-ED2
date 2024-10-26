@@ -85,6 +85,60 @@
         </div>
     </div>
 </div>
+                    <!-- Manejo de mensajes de alertas -->
+                    <%
+                        /**
+                         * Alerta de categoria agregada
+                         */
+                        
+                        //Obtenemos el resultado que se obtuvo al agregar una categoria
+                        String alertaCategoriaAgregada = (String) request.getSession().getAttribute("categoriaAgregada");
+                        
+                        //Comprobamos si el resultado es diferente de null o de vacia
+                        if(alertaCategoriaAgregada != null && !alertaCategoriaAgregada.isEmpty()){
+                            
+                            //Segun el resultado
+                            if(alertaCategoriaAgregada.equals("true")){
+                    %>  
+<script>
+    Swal.fire({
+        title: "Categoria Agregada",
+        text: "Se agregó correctamenta la categoria",
+        icon: "success"
+
+    });
+
+</script>
+                              
+                    <%
+                        } else if( alertaCategoriaAgregada.equals("false")){
+                        %>
+
+                        <script>
+      Swal.fire({
+          title: "Error al agregar la categría",
+          text: "No pudo agregar la categoría, por favor intentelo de nuevo",
+          icon: "error"
+
+      });
+
+                        </script>  
+                        
+                        <%
+                        }
+                        
+                        }
+                        
+                        //Limpiamos el resutlado para evitar erroes
+                        request.getSession().removeAttribute("categoriaAgregada");
+                    
+                    %>
+
+                    
+                    
+                    
+                    
+                    
       
                     
 

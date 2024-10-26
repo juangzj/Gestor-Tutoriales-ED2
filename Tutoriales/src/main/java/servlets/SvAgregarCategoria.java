@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import umariana.tutoriales.GestionarCategorias;
 
 /**
@@ -40,7 +41,14 @@ public class SvAgregarCategoria extends HttpServlet {
         String categoria = request.getParameter("categoria");
         
         if (categoria != null){
-            gestionaCategoria.agregarCategoria(categoria);
+           boolean categoriaAgregada = gestionaCategoria.agregarCategoria(categoria);
+           HttpSession miSesion = request.getSession();
+           if(categoriaAgregada == true){
+               miSesion.setAttribute("categoriaAgregada", "true");
+           }
+           if(categoriaAgregada == false ){
+               miSesion.setAttribute("categoriaAgregada", "false");
+           }
         }
       
         

@@ -14,4 +14,4 @@
         <script src="https://kit.fontawesome.com/424ce1386e.js" crossorigin="anonymous"></script>
     </head>
     <body>
-      
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
