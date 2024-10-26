@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import umariana.tutoriales.GestionarCategorias;
 
 /**
@@ -46,7 +47,16 @@ public class SvEliminarCategoria extends HttpServlet {
             id = Integer.parseInt(idCategoria);
         }
         if (confirmacion != null) {
-            gestionarCategoria.eliminarCategoria(id);
+            boolean categoriaEliminada = gestionarCategoria.eliminarCategoria(id);
+            
+            //Obtenemos la sesion 
+            HttpSession miSesion = request.getSession();
+            if(categoriaEliminada == true){
+                miSesion.setAttribute("categoriaEliminada", "true");
+            }
+            if(categoriaEliminada == false){
+                miSesion.setAttribute("categoriaEliminada", "false");
+            }
         }
 
         response.sendRedirect("categorias.jsp");

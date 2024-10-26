@@ -133,15 +133,46 @@
                         request.getSession().removeAttribute("categoriaAgregada");
                     
                     %>
+                    <%                        /**
+                         * Alerta de categoria Eliminada
+                         */
+                        //Obtenemos el resultado de la categoria eliminada
+                        String alertaCategoriaEliminada = (String) request.getSession().getAttribute("categoriaEliminada");
 
-                    
-                    
-                    
-                    
-                    
-      
-                    
+                        //Comprobamos si el resultado es diferente de vacio o de null
+                        if (alertaCategoriaEliminada != null && !alertaCategoriaEliminada.isEmpty()) {
+                            //Evaluamos el resultado de la eliminación
+                            if (alertaCategoriaEliminada.equals("true")) {
+                                %>
+                                
+<script>
+    Swal.fire({
+        title: "Eliminación Exitosa",
+        text: "Se ha eliminado la categoria de forma exitosa",
+        icon: "success"
 
+    });
+</script>
+                                
+                                
+                                <%
+                            }
+                            if (alertaCategoriaEliminada.equals("false")) {
+                                %>
+<script>
+    Swal.fire({
+        title: "Error",
+        text: "No se puede eliminar la categoria porque esta ligada a uno o más tutoriales",
+        icon: "error"
+
+    });
+</script> 
+                                <%
+                            }
+                        }
+                        request.getSession().removeAttribute("categoriaEliminada");
+
+                    %>
                     <!-- Modal Para Editar una categoria -->
                     <div class="modal fade" id="exampleModalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
