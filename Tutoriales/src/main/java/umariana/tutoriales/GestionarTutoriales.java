@@ -108,8 +108,63 @@ public class GestionarTutoriales {
         return null;
     }
 
-    public void actualizarTutorial(Tutorial tutorial) {
-        // Lógica para actualizar un tutorial en la base de datos
+    /**
+     * Metodo para editar un tutorial
+     * @param id
+     * @param titulo
+     * @param url
+     * @param prioridad
+     * @param estado
+     * @param idCategoria
+     * @return 
+     */
+    public boolean editarTutorial(int id, String titulo, String url, int prioridad, boolean estado, int idCategoria) {
+        boolean tutorialEditado = false;
+        Connection conexion = null;
+        PreparedStatement consulta = null;
+
+        try {
+            // Establecer la conexión
+            conexion = conectar.obtenerConexion();
+
+            // Crear la consulta SQL para actualizar el tutorial
+            String sql = "UPDATE tutoriales SET titulo = ?, url = ?, prioridad = ?, estado = ?, idCategoria = ? WHERE idTutorial = ?";
+
+            // Preparar la consulta
+            consulta = conexion.prepareStatement(sql);
+
+            // Asignar valores a los parámetros
+            consulta.setString(1, titulo);
+            consulta.setString(2, url);
+            consulta.setInt(3, prioridad);
+            consulta.setBoolean(4, estado);
+            consulta.setInt(5, idCategoria);
+            consulta.setInt(6, id);
+
+            // Ejecutar la consulta de actualización
+            int filasAfectadas = consulta.executeUpdate();
+
+            // Verificar si se editó al menos un registro
+            if (filasAfectadas > 0) {
+                tutorialEditado = true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (consulta != null) {
+                    consulta.close();
+                }
+                if (conexion != null) {
+                    conexion.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return tutorialEditado;
     }
 
     public boolean eliminarTutorial(int idTutorial) {
