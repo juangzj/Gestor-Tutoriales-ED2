@@ -108,16 +108,65 @@ public class GestionarCategorias {
         return misCategorias;
     }
 
-    public Tutorial obtenerCategoriaId(int idCategoria) {
-        // Lógica para obtener una categoria por su ID desde la base de datos
-        return null;
+    /**
+     * Metodo par obtener una categoria mediante su id
+     * @param idCategoria
+     * @return 
+     */
+    public Categoria obtenerCategoriaId(int idCategoria) {
+        Categoria categoria = null;
+        Connection conexion = null;
+        PreparedStatement consulta = null;
+        ResultSet resultado = null;
+
+        try {
+            // Conectar a la base de datos
+            conexion = conectar.obtenerConexion();
+
+            // Definir la consulta SQL
+            String sql = "SELECT * FROM categorias WHERE idCategoria = ?";
+            consulta = conexion.prepareStatement(sql);
+            consulta.setInt(1, idCategoria);
+
+            // Ejecutar la consulta y obtener el resultado
+            resultado = consulta.executeQuery();
+
+            // Verificar si se encontró la categoría
+            if (resultado.next()) {
+                int id = resultado.getInt("idCategoria");
+                String nombreCategoria = resultado.getString("categoria");
+
+                // Crear el objeto Categoria con los datos obtenidos
+                categoria = new Categoria(id, nombreCategoria);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // En producción es mejor usar un logger para manejar errores
+        } finally {
+            // Cerrar recursos
+            try {
+                if (resultado != null) {
+                    resultado.close();
+                }
+                if (consulta != null) {
+                    consulta.close();
+                }
+                if (conexion != null) {
+                    conexion.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return categoria;
     }
 
     /**
      * Metodo para editar una categoria
+     *
      * @param id
      * @param categoria
-     * @return 
+     * @return
      */
     public boolean editarCategoria(int id, String categoria) {
         boolean categoriaEditada = false;

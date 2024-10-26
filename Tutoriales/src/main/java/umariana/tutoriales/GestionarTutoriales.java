@@ -101,8 +101,6 @@ public class GestionarTutoriales {
         return misTutoriales;
     }
     
-    
-    
     public Tutorial obtenerTutorialPorId(int idTutorial) {
         // Lógica para obtener un tutorial por su ID desde la base de datos
         return null;

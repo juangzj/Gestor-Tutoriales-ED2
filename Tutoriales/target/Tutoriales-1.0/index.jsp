@@ -113,8 +113,13 @@
                              <%
                                  }
                              %>
+                             <%
+                              
+                                Categoria c = categorias.obtenerCategoriaId(tutorial.getIdCategoria());
 
-                            <td><%= tutorial.getIdCategoria()%></td>
+                             %>
+
+                            <td><%= c.getCategorias() %></td>
                             <td>
                            <!-- Botón para abrir el modal de ver -->
                         <button type="button" class="btn btn-success verTutorial-btn" 
