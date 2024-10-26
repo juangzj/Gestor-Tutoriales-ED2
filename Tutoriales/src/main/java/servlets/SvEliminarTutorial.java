@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import umariana.tutoriales.GestionarTutoriales;
 
 /**
@@ -44,7 +45,16 @@ public class SvEliminarTutorial extends HttpServlet {
             id = Integer.parseInt(idTutorial);
         }
         if(confirmacion != null){
-            gestionaTutoriales.eliminarTutorial(id);
+            boolean tutorialEliminado = gestionaTutoriales.eliminarTutorial(id);
+            //Obtenemos el resultado de la eliminación
+            HttpSession miSesion = request.getSession();
+            
+            if(tutorialEliminado == true){
+                miSesion.setAttribute("tutorialEliminado", "true");
+            }
+            if(tutorialEliminado == false){
+                miSesion.setAttribute("tutorialEliminado", "false");
+            }
         }
         
         

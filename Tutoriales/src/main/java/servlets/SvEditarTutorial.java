@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import umariana.tutoriales.GestionarTutoriales;
 
 /**
@@ -48,13 +49,18 @@ public class SvEditarTutorial extends HttpServlet {
             id = Integer.parseInt(idTutorial);
         }
         
-        if(titulo != null && url != null && prioridad != null && estado != null && categoria != null ){
-            gestionaTutoriales.editarTutorial(id, titulo, url, Integer.parseInt(prioridad), Boolean.parseBoolean(estado), Integer.parseInt(categoria));
+        if (titulo != null && url != null && prioridad != null && estado != null && categoria != null) {
+            boolean tutorialEditado = gestionaTutoriales.editarTutorial(id, titulo, url, Integer.parseInt(prioridad), Boolean.parseBoolean(estado), Integer.parseInt(categoria));
+
+            //Obtenemos la sesion 
+            HttpSession miSesion = request.getSession();
+            if (tutorialEditado == true) {
+                miSesion.setAttribute("tutorialEditado", "true");
+            }
+            if (tutorialEditado == false) {
+                 miSesion.setAttribute("tutorialEditado", "false");
+            }
         }
-        
-        
-        
-        
         response.sendRedirect("index.jsp");
     }
 

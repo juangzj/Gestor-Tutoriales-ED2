@@ -174,10 +174,120 @@
         </div>
     </div>
 </div>
-                    
-                    
-                    
-                    
+                        <!-- Manejo de alertas para gestion de tutoriales -->
+                        <%
+                            /**
+                             * Alerta para cuando se agrega un tutorial
+                             */
+                            //Obtenemos el resultado del tutorial agregado
+                            String alertaTutorialAgregado = (String) request.getSession().getAttribute("tutorialAgregado");
+
+                            //Evaluamos si el resultado es diferente de null
+                            if (alertaTutorialAgregado != null && !alertaTutorialAgregado.isEmpty()) {
+                                //Evaluamos el resultado 
+                                if (alertaTutorialAgregado.equals("true")) {
+                        %> 
+                        <script>
+                            Swal.fire({
+                                title: "Tutorial Agregado",
+                                text: "El tutorial se ha agregado de forma exitosa ",
+                                icon: "success"
+                            });
+                        </script>
+                        <%
+                            }
+                            if (alertaTutorialAgregado.equals("false")) {
+                        %>
+                        <script>
+                            Swal.fire({
+                                title: "Error",
+                                text: "No se pudo agregar el tutorial. Por favor Intentelo de nuevo",
+                                icon: "error"
+                            });
+                        </script>
+                        <%
+                                }
+                            }
+                            //limpiamos el atributo que contien el resultado del tutorial agregado
+                            request.getSession().removeAttribute("tutorialAgregado");
+
+                        %>
+                        <%                            /**
+                             * Alerta para la eliminacion de un tutorial
+                             */
+                            String alertaTutorialEliminado = (String) request.getSession().getAttribute("tutorialEliminado");
+
+                            //Verificamos que el resultado sea difetene de null o de vacio
+                            if (alertaTutorialEliminado != null && !alertaTutorialEliminado.isEmpty()) {
+
+                                //Evaluamos el resultado
+                                if (alertaTutorialEliminado.equals("true")) {
+                        %> 
+                        <script>
+                            Swal.fire({
+                                title: "Eliminacion Exitosa",
+                                text: "El tutorial ha sido eliminado",
+                                icon: "success"
+                            });
+                        </script>
+                        <%
+                            }
+                            if (alertaTutorialEliminado.equals("false")) {
+                        %>
+                        <script>
+                            Swal.fire({
+                                title: "Error",
+                                text: "No se pudo eliminar el tutorial",
+                                icon: "error"
+
+                            });
+                        </script>
+                        <%
+                                }
+
+                            }
+
+                            //limpiamos el atributo que contien el resultado de la eliminacion
+                            request.getSession().removeAttribute("tutorialEliminado");
+
+
+                        %>
+                        <%                            /**
+                             * Alerta de edición de tutorial
+                             */
+                            //Obtenemos el resultado de la edicion de un tutorial
+                            String alertaTutorialEditado = (String) request.getSession().getAttribute("tutorialEditado");
+
+                            //verificamos el que resultado sea difetene de null y de vacio
+                            if (alertaTutorialEditado != null && !alertaTutorialEditado.isEmpty()) {
+                                //Evaluamos el resultado de la edicion
+                                if (alertaTutorialEditado.equals("true")) {
+
+                        %> 
+                        <script>
+                            Swal.fire({
+                                title: "Edicion Exitosa",
+                                text: "El tutorial ha sido editado de forma exitosa",
+                                icon: "success"
+                            });
+                        </script>
+                        <%    }
+                            if (alertaTutorialEditado.equals("false")) {
+                        %>
+                        <script>
+                            Swal.fire({
+                                title: "Error",
+                                text: "El tutoria no pudo ser Editado",
+                                icon: "error"
+                            });
+                        </script>
+                        <%
+                                }
+                                //Limpiamos el atributo que contiene el resultado de la edicion de un tutorial
+                                request.getSession().removeAttribute("tutorialEditado");
+                            }
+                        %>
+
                     <!-- Modal para ver la información-->
 <div class="modal fade" id="exampleModalVer" tabindex="-1" aria-labelledby="exampleModalVerLabel" aria-hidden="true">
   <div class="modal-dialog">

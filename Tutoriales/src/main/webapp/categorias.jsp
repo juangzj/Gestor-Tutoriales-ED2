@@ -85,21 +85,21 @@
         </div>
     </div>
 </div>
-                    <!-- Manejo de mensajes de alertas -->
-                    <%
-                        /**
-                         * Alerta de categoria agregada
-                         */
-                        
-                        //Obtenemos el resultado que se obtuvo al agregar una categoria
-                        String alertaCategoriaAgregada = (String) request.getSession().getAttribute("categoriaAgregada");
-                        
-                        //Comprobamos si el resultado es diferente de null o de vacia
-                        if(alertaCategoriaAgregada != null && !alertaCategoriaAgregada.isEmpty()){
-                            
-                            //Segun el resultado
-                            if(alertaCategoriaAgregada.equals("true")){
-                    %>  
+<!-- Manejo de mensajes de alertas -->
+
+<%
+    /**
+     * Alerta de categoria agregada
+     */
+    //Obtenemos el resultado que se obtuvo al agregar una categoria
+    String alertaCategoriaAgregada = (String) request.getSession().getAttribute("categoriaAgregada");
+
+    //Comprobamos si el resultado es diferente de null o de vacia
+    if (alertaCategoriaAgregada != null && !alertaCategoriaAgregada.isEmpty()) {
+
+        //Segun el resultado
+        if (alertaCategoriaAgregada.equals("true")) {
+%>  
 <script>
     Swal.fire({
         title: "Categoria Agregada",
@@ -109,42 +109,38 @@
     });
 
 </script>
-                              
-                    <%
-                        } else if( alertaCategoriaAgregada.equals("false")){
-                        %>
 
-                        <script>
-      Swal.fire({
-          title: "Error al agregar la categría",
-          text: "No pudo agregar la categoría, por favor intentelo de nuevo",
-          icon: "error"
+<%
+} else if (alertaCategoriaAgregada.equals("false")) {
+%>
+<script>
+Swal.fire({
+title: "Error al agregar la categría",
+text: "No pudo agregar la categoría, por favor intentelo de nuevo",
+icon: "error"
+});
+</script>  
+<%
+        }
 
-      });
+    }
 
-                        </script>  
-                        
-                        <%
-                        }
-                        
-                        }
-                        
-                        //Limpiamos el resutlado para evitar erroes
-                        request.getSession().removeAttribute("categoriaAgregada");
-                    
-                    %>
-                    <%                        /**
-                         * Alerta de categoria Eliminada
-                         */
-                        //Obtenemos el resultado de la categoria eliminada
-                        String alertaCategoriaEliminada = (String) request.getSession().getAttribute("categoriaEliminada");
+    //Limpiamos el resutlado para evitar erroes
+    request.getSession().removeAttribute("categoriaAgregada");
 
-                        //Comprobamos si el resultado es diferente de vacio o de null
-                        if (alertaCategoriaEliminada != null && !alertaCategoriaEliminada.isEmpty()) {
-                            //Evaluamos el resultado de la eliminación
-                            if (alertaCategoriaEliminada.equals("true")) {
-                                %>
-                                
+%>
+<%                        /**
+     * Alerta de categoria Eliminada
+     */
+    //Obtenemos el resultado de la categoria eliminada
+    String alertaCategoriaEliminada = (String) request.getSession().getAttribute("categoriaEliminada");
+
+    //Comprobamos si el resultado es diferente de vacio o de null
+    if (alertaCategoriaEliminada != null && !alertaCategoriaEliminada.isEmpty()) {
+        //Evaluamos el resultado de la eliminación
+        if (alertaCategoriaEliminada.equals("true")) {
+%>
+
 <script>
     Swal.fire({
         title: "Eliminación Exitosa",
@@ -153,12 +149,12 @@
 
     });
 </script>
-                                
-                                
-                                <%
-                            }
-                            if (alertaCategoriaEliminada.equals("false")) {
-                                %>
+
+
+<%
+    }
+    if (alertaCategoriaEliminada.equals("false")) {
+%>
 <script>
     Swal.fire({
         title: "Error",
@@ -167,12 +163,22 @@
 
     });
 </script> 
-                                <%
-                            }
-                        }
-                        request.getSession().removeAttribute("categoriaEliminada");
+<%
+        }
+    }
+    request.getSession().removeAttribute("categoriaEliminada");
 
-                    %>
+%>
+
+
+
+
+
+
+
+
+
+                        
                     <!-- Modal Para Editar una categoria -->
                     <div class="modal fade" id="exampleModalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
